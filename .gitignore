@@ -1,0 +1,22 @@
+# Local nested repo/tooling
+frontend-slides/
+隐溪田/
+
+# Generated office/source artifacts not needed for web publish
+*.pptx
+*.docx
+*.mojibake-backup
+_debug_docx_text_utf8.txt
+_utf8_probe.txt
+
+# Local helper scripts and stitch docs
+build_text_ppt*.py
+stitch_content.json
+stitch_framework.md
+stitch_prompt_full.md
+stitch_return_format.md
+stitch代码.txt
+
+# OS junk
+.DS_Store
+Thumbs.db

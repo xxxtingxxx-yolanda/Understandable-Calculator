@@ -1,0 +1,1200 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>寒假编程进化史 - 跃迁主线</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    /* ===========================================
+       VIEWPORT FITTING: MANDATORY BASE STYLES
+       Include this ENTIRE file in every presentation.
+       These styles ensure slides fit exactly in the viewport.
+       =========================================== */
+
+    /* 1. Lock html/body to viewport */
+    html, body {
+        height: 100%;
+        overflow-x: hidden;
+    }
+
+    html {
+        scroll-snap-type: y mandatory;
+        scroll-behavior: smooth;
+    }
+
+    /* 2. Each slide = exact viewport height */
+    .slide {
+        width: 100vw;
+        height: 100vh;
+        height: 100dvh; /* Dynamic viewport height for mobile browsers */
+        overflow: hidden; /* CRITICAL: Prevent ANY overflow */
+        scroll-snap-align: start;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    /* 3. Content container with flex for centering */
+    .slide-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        max-height: 100%;
+        overflow: hidden; /* Double-protection against overflow */
+        padding: var(--slide-padding);
+    }
+
+    /* 4. ALL typography uses clamp() for responsive scaling */
+    :root {
+        /* Titles scale from mobile to desktop */
+        --title-size: clamp(1.5rem, 5vw, 4rem);
+        --h2-size: clamp(1.25rem, 3.5vw, 2.5rem);
+        --h3-size: clamp(1rem, 2.5vw, 1.75rem);
+
+        /* Body text */
+        --body-size: clamp(0.75rem, 1.5vw, 1.125rem);
+        --small-size: clamp(0.65rem, 1vw, 0.875rem);
+
+        /* Spacing scales with viewport */
+        --slide-padding: clamp(1rem, 4vw, 4rem);
+        --content-gap: clamp(0.5rem, 2vw, 2rem);
+        --element-gap: clamp(0.25rem, 1vw, 1rem);
+    }
+
+    /* 5. Cards/containers use viewport-relative max sizes */
+    .card, .container, .content-box {
+        max-width: min(90vw, 1000px);
+        max-height: min(80vh, 700px);
+    }
+
+    /* 6. Lists auto-scale with viewport */
+    .feature-list, .bullet-list {
+        gap: clamp(0.4rem, 1vh, 1rem);
+    }
+
+    .feature-list li, .bullet-list li {
+        font-size: var(--body-size);
+        line-height: 1.4;
+    }
+
+    /* 7. Grids adapt to available space */
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
+        gap: clamp(0.5rem, 1.5vw, 1rem);
+    }
+
+    /* 8. Images constrained to viewport */
+    img, .image-container {
+        max-width: 100%;
+        max-height: min(50vh, 400px);
+        object-fit: contain;
+    }
+
+    /* ===========================================
+       RESPONSIVE BREAKPOINTS
+       Aggressive scaling for smaller viewports
+       =========================================== */
+
+    /* Short viewports (< 700px height) */
+    @media (max-height: 700px) {
+        :root {
+            --slide-padding: clamp(0.75rem, 3vw, 2rem);
+            --content-gap: clamp(0.4rem, 1.5vw, 1rem);
+            --title-size: clamp(1.25rem, 4.5vw, 2.5rem);
+            --h2-size: clamp(1rem, 3vw, 1.75rem);
+        }
+    }
+
+    /* Very short viewports (< 600px height) */
+    @media (max-height: 600px) {
+        :root {
+            --slide-padding: clamp(0.5rem, 2.5vw, 1.5rem);
+            --content-gap: clamp(0.3rem, 1vw, 0.75rem);
+            --title-size: clamp(1.1rem, 4vw, 2rem);
+            --body-size: clamp(0.7rem, 1.2vw, 0.95rem);
+        }
+
+        /* Hide non-essential elements */
+        .nav-dots, .keyboard-hint, .decorative {
+            display: none;
+        }
+    }
+
+    /* Extremely short (landscape phones, < 500px height) */
+    @media (max-height: 500px) {
+        :root {
+            --slide-padding: clamp(0.4rem, 2vw, 1rem);
+            --title-size: clamp(1rem, 3.5vw, 1.5rem);
+            --h2-size: clamp(0.9rem, 2.5vw, 1.25rem);
+            --body-size: clamp(0.65rem, 1vw, 0.85rem);
+        }
+    }
+
+    /* Narrow viewports (< 600px width) */
+    @media (max-width: 600px) {
+        :root {
+            --title-size: clamp(1.25rem, 7vw, 2.5rem);
+        }
+
+        /* Stack grids vertically */
+        .grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    /* ===========================================
+       REDUCED MOTION
+       Respect user preferences
+       =========================================== */
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.01ms !important;
+            transition-duration: 0.2s !important;
+        }
+
+        html {
+            scroll-behavior: auto;
+        }
+    }
+
+    /* ===========================================
+       THEME TOKENS (Swiss Modern / White Editorial)
+       =========================================== */
+    :root {
+      --bg-primary: #fdfefe;
+      --bg-secondary: #f6f8fc;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.1);
+      --line: #dbe3ef;
+      --font-display: "Cormorant Garamond", "Noto Sans SC", serif;
+      --font-body: "Noto Sans SC", "Manrope", sans-serif;
+      --font-meta: "Manrope", sans-serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --duration-normal: 0.62s;
+    }
+
+    /* ===========================================
+       BASE DOCUMENT
+       =========================================== */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: radial-gradient(circle at 88% 8%, rgba(37, 99, 235, 0.07), transparent 34%),
+                  radial-gradient(circle at 8% 92%, rgba(15, 23, 42, 0.05), transparent 34%),
+                  var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+    }
+
+    .progress-bar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 0%;
+      height: 4px;
+      background: linear-gradient(90deg, #2563eb, #1d4ed8);
+      z-index: 1000;
+      transition: width 0.18s linear;
+    }
+
+    .nav-dots {
+      position: fixed;
+      right: clamp(10px, 1.8vw, 24px);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 900;
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.2vh, 12px);
+    }
+
+    .nav-dot {
+      width: clamp(8px, 0.8vw, 12px);
+      height: clamp(8px, 0.8vw, 12px);
+      border-radius: 999px;
+      border: 1px solid rgba(15, 23, 42, 0.28);
+      background: rgba(255, 255, 255, 0.7);
+      cursor: pointer;
+      transition: transform 0.24s var(--ease-out-expo), background 0.24s var(--ease-out-expo);
+    }
+
+    .nav-dot.active {
+      transform: scale(1.2);
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .slide::before {
+      content: "";
+      position: absolute;
+      left: clamp(16px, 4vw, 64px);
+      top: clamp(16px, 4vh, 36px);
+      width: clamp(54px, 7vw, 96px);
+      height: 1px;
+      background: var(--line);
+    }
+
+    .slide::after {
+      content: "";
+      position: absolute;
+      left: clamp(16px, 4vw, 64px);
+      top: calc(100% - clamp(40px, 8vh, 70px));
+      width: clamp(54px, 7vw, 96px);
+      height: 1px;
+      background: var(--line);
+    }
+
+    .slide-content {
+      width: min(100%, 1080px);
+      margin: 0 auto;
+      gap: clamp(12px, 2.4vh, 20px);
+      justify-content: center;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: var(--font-meta);
+      font-size: clamp(0.63rem, 0.9vw, 0.82rem);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: clamp(8px, 1.2vh, 12px);
+    }
+
+    .meta-row .kicker {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .slide-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4.6vw, 4.8rem);
+      font-weight: 700;
+      line-height: 0.98;
+      letter-spacing: 0.01em;
+      max-width: min(88%, 980px);
+      text-wrap: balance;
+    }
+
+    .slide-subtitle {
+      font-size: clamp(0.98rem, 1.55vw, 1.3rem);
+      color: var(--text-secondary);
+      line-height: 1.42;
+      max-width: min(78%, 840px);
+      text-wrap: pretty;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      padding: clamp(6px, 1vh, 10px) clamp(10px, 1.35vw, 16px);
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-family: var(--font-meta);
+      font-size: clamp(0.68rem, 0.92vw, 0.84rem);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .bullet-list {
+      list-style: none;
+      display: grid;
+      gap: clamp(8px, 1.3vh, 14px);
+      max-width: min(92%, 960px);
+    }
+
+    .bullet-list li {
+      position: relative;
+      padding-left: clamp(16px, 2vw, 24px);
+      color: var(--text-secondary);
+      line-height: 1.45;
+      font-size: clamp(0.92rem, 1.32vw, 1.18rem);
+      text-wrap: pretty;
+    }
+
+    .bullet-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: calc(0.55em);
+      width: clamp(7px, 0.7vw, 10px);
+      height: clamp(7px, 0.7vw, 10px);
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+      transform: translateY(-50%);
+    }
+
+    .bullet-list li strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(10px, 1.5vw, 16px);
+      width: min(100%, 980px);
+      margin-inline: auto;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid var(--line);
+      border-radius: clamp(12px, 1.4vw, 18px);
+      padding: clamp(14px, 2.2vh, 22px) clamp(12px, 1.5vw, 18px);
+      min-height: clamp(120px, 20vh, 190px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(8px, 1.2vh, 14px);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .card .num {
+      font-family: "Manrope", var(--font-meta);
+      font-size: clamp(1.25rem, 2.2vw, 2rem);
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "lnum" 1;
+      margin: 0;
+      width: auto;
+      position: static;
+      transform: none;
+      text-align: center;
+    }
+
+    .leap-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Manrope", var(--font-meta);
+      font-size: 0.84em;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "lnum" 1;
+      transform: translateY(-0.02em);
+      vertical-align: middle;
+      margin-inline: 0.03em;
+    }
+
+    .card .title {
+      font-size: clamp(0.86rem, 1.1vw, 1rem);
+      color: var(--text-secondary);
+      line-height: 1.35;
+      text-align: center;
+      width: 100%;
+      margin: 0;
+      position: static;
+      transform: none;
+    }
+
+    .split-layout {
+      width: 100%;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(240px, 360px);
+      gap: clamp(18px, 2vw, 28px);
+      align-items: center;
+    }
+
+    .split-main {
+      min-width: 0;
+      display: grid;
+      gap: clamp(10px, 1.4vh, 16px);
+    }
+
+    .split-main .slide-title,
+    .split-main .slide-subtitle,
+    .split-main .bullet-list {
+      max-width: 100%;
+    }
+
+    .split-side {
+      min-width: 0;
+      display: grid;
+      gap: clamp(12px, 1.6vh, 18px);
+      align-content: end;
+      justify-items: stretch;
+    }
+
+    .image-slot {
+      border: 2px dashed rgba(37, 99, 235, 0.32);
+      border-radius: clamp(10px, 1.1vw, 14px);
+      background: rgba(255, 255, 255, 0.78);
+      min-height: clamp(128px, 25vh, 220px);
+      padding: clamp(4px, 0.6vw, 8px);
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: rgba(71, 85, 105, 0.9);
+      font-family: var(--font-meta);
+      font-size: clamp(0.7rem, 0.95vw, 0.86rem);
+      letter-spacing: 0.08em;
+    }
+
+    .slot-media {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: clamp(8px, 0.9vw, 12px);
+      background: #ffffff;
+    }
+
+    .slot-media--contain {
+      object-fit: contain;
+      background: #ffffff;
+    }
+
+    .image-slot--tall {
+      min-height: clamp(220px, 42vh, 360px);
+    }
+
+    .jump-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      padding: clamp(9px, 1.1vh, 13px) clamp(16px, 1.8vw, 22px);
+      border-radius: 999px;
+      background: var(--accent);
+      color: #ffffff;
+      text-decoration: none;
+      font-family: var(--font-meta);
+      font-size: clamp(0.76rem, 0.98vw, 0.9rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      box-shadow: 0 10px 22px rgba(37, 99, 235, 0.24);
+      transition: transform 0.22s var(--ease-out-expo), box-shadow 0.22s var(--ease-out-expo);
+    }
+
+    .jump-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 26px rgba(37, 99, 235, 0.3);
+    }
+
+    .slide-04 .split-layout,
+    .slide-06 .split-layout,
+    .slide-07 .split-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(520px, 700px);
+    }
+
+    .slide-04 .split-side,
+    .slide-06 .split-side,
+    .slide-07 .split-side {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: clamp(12px, 1vw, 18px);
+      align-content: stretch;
+      justify-items: stretch;
+      align-self: stretch;
+    }
+
+    .slide-04 .split-side .image-slot,
+    .slide-06 .split-side .image-slot,
+    .slide-07 .split-side .image-slot {
+      width: min(100%, 620px);
+      min-height: clamp(220px, 40vh, 360px);
+      padding: 0;
+    }
+
+    .slide-04 .split-side .jump-btn,
+    .slide-06 .split-side .jump-btn,
+    .slide-07 .split-side .jump-btn {
+      justify-self: end;
+      align-self: end;
+      margin-bottom: 0;
+    }
+
+    .slide-06 .split-side .slot-media,
+    .slide-07 .split-side .slot-media {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: clamp(220px, 40vh, 360px);
+      object-fit: contain;
+      object-position: center center;
+      transform: none;
+      transform-origin: center center;
+      display: block;
+    }
+
+    .slide-06 .split-side .image-slot,
+    .slide-07 .split-side .image-slot {
+      width: auto;
+      max-width: min(100%, 620px);
+      min-height: 0;
+      height: auto;
+      justify-self: end;
+    }
+
+    .slide-04 .split-side .image-slot {
+      min-height: 0;
+      height: auto;
+      aspect-ratio: 2538 / 1398;
+      padding: 0 !important;
+      overflow: hidden;
+      line-height: 0;
+    }
+
+    .slide-04 .split-side .slot-media {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: left center;
+      transform: none;
+      display: block;
+    }
+
+    .slide-05 .split-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(320px, 380px);
+    }
+
+    .slide-05 .slide-title {
+      font-size: clamp(1.75rem, 3.7vw, 4.1rem);
+      line-height: 1.04;
+      text-wrap: unset;
+    }
+
+    .slide-05 .split-side {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(10px, 1.2vw, 16px);
+      align-content: center;
+    }
+
+    .slide-07 .slide-title {
+      font-size: clamp(1.6rem, 3.15vw, 3.55rem);
+      line-height: 1.02;
+      white-space: nowrap;
+      text-wrap: nowrap;
+    }
+
+    .nowrap-cn {
+      white-space: nowrap;
+      word-break: keep-all;
+    }
+
+    .slide-08 .split-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(420px, 560px);
+    }
+
+    .slide-08 .split-side {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(10px, 1vw, 14px);
+      align-content: center;
+    }
+
+    .slide-08 .image-slot {
+      min-height: clamp(200px, 38vh, 320px);
+    }
+
+    .slide-03 .map-panel {
+      width: min(84%, 1040px);
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .slide-03 .map-panel .slide-title,
+    .slide-03 .map-panel .slide-subtitle {
+      max-width: 100%;
+      width: 100%;
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .slide-02 .intro-panel,
+    .slide-09 .method-panel {
+      width: min(84%, 1040px);
+      margin-inline: 0;
+      text-align: left;
+    }
+
+    .slide-02 .intro-panel .slide-title,
+    .slide-02 .intro-panel .slide-subtitle,
+    .slide-02 .intro-panel .bullet-list,
+    .slide-09 .method-panel .slide-title,
+    .slide-09 .method-panel .bullet-list,
+    .slide-09 .method-panel .closing {
+      width: 100%;
+      max-width: 100%;
+      margin-inline: 0;
+      text-align: left;
+    }
+
+    .method-number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Manrope", var(--font-meta);
+      font-size: 0.82em;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: 0.01em;
+      transform: translateY(-0.03em);
+      vertical-align: middle;
+      margin-inline: 0.03em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1, "lnum" 1;
+    }
+
+    .slide-10 .quote {
+      text-align: center;
+      margin-inline: auto;
+      font-weight: 800;
+      max-width: min(88%, 980px);
+    }
+
+    .slide-10 .quote em {
+      font-weight: 900;
+    }
+
+    .slide-10 .closing {
+      text-align: center;
+      font-weight: 700;
+      margin-top: clamp(12px, 2vh, 20px);
+    }
+
+    @media (min-width: 1500px) {
+      .slide-content {
+        width: min(94vw, 1820px);
+      }
+
+      .slide-08 .split-layout {
+        grid-template-columns: minmax(0, 1fr) minmax(840px, 1.35fr);
+        gap: clamp(16px, 1.4vw, 24px);
+      }
+
+      .slide-08 .split-side {
+        gap: clamp(12px, 0.9vw, 18px);
+      }
+
+      .slide-08 .image-slot {
+        min-height: clamp(250px, 42vh, 430px);
+      }
+    }
+
+    .quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.85rem, 4vw, 3.7rem);
+      line-height: 1.06;
+      max-width: min(92%, 1040px);
+      text-wrap: balance;
+    }
+
+    .quote em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .closing {
+      margin-top: clamp(8px, 1.5vh, 16px);
+      font-size: clamp(0.9rem, 1.15vw, 1.04rem);
+      color: var(--text-secondary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-family: var(--font-meta);
+    }
+
+    .keyboard-hint {
+      position: fixed;
+      left: 50%;
+      bottom: clamp(8px, 1.2vh, 14px);
+      transform: translateX(-50%);
+      font-family: var(--font-meta);
+      font-size: clamp(0.6rem, 0.8vw, 0.74rem);
+      letter-spacing: 0.08em;
+      color: rgba(71, 85, 105, 0.75);
+      z-index: 800;
+      text-transform: uppercase;
+    }
+
+    /* ===========================================
+       REVEAL ANIMATIONS
+       =========================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition:
+        opacity var(--duration-normal) var(--ease-out-expo),
+        transform var(--duration-normal) var(--ease-out-expo);
+    }
+
+    .slide.visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal:nth-child(1) { transition-delay: 0.04s; }
+    .reveal:nth-child(2) { transition-delay: 0.12s; }
+    .reveal:nth-child(3) { transition-delay: 0.2s; }
+    .reveal:nth-child(4) { transition-delay: 0.28s; }
+    .reveal:nth-child(5) { transition-delay: 0.36s; }
+    .reveal:nth-child(6) { transition-delay: 0.44s; }
+
+    /* ===========================================
+       EXTRA BREAKPOINTS
+       =========================================== */
+    @media (max-width: 980px) {
+      .cards {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .split-layout {
+        grid-template-columns: 1fr;
+        gap: clamp(12px, 1.6vh, 18px);
+      }
+
+      .slide-05 .split-side,
+      .slide-08 .split-side {
+        grid-template-columns: 1fr;
+      }
+
+      .slide-03 .map-panel {
+        width: 100%;
+      }
+
+      .slide-02 .intro-panel,
+      .slide-09 .method-panel {
+        width: 100%;
+      }
+
+      .slide-04 .split-side,
+      .slide-06 .split-side,
+      .slide-07 .split-side {
+        align-self: auto;
+        grid-template-columns: 1fr;
+        justify-items: end;
+      }
+
+      .slide-05 .image-slot,
+      .slide-08 .image-slot,
+      .image-slot--tall {
+        min-height: clamp(120px, 18vh, 170px);
+      }
+
+      .slide-subtitle,
+      .slide-title,
+      .bullet-list {
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-bar" id="progressBar"></div>
+  <nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
+
+  <!-- Slide 01 -->
+  <section class="slide" data-title="封面">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Winter Break Growth Log</span>
+        <span>01 / 10</span>
+      </div>
+      <h1 class="slide-title reveal">寒假编程进化史</h1>
+      <p class="slide-subtitle reveal">从“做一个页面”到“做一个系统”</p>
+      <span class="tag reveal">给编程小白的真实路径</span>
+      <p class="closing reveal">雷雨婷 · 2026.01 - 2026.03</p>
+    </div>
+  </section>
+
+  <!-- Slide 02 -->
+  <section class="slide slide-02" data-title="开场定位">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Positioning</span>
+        <span>02 / 10</span>
+      </div>
+      <div class="intro-panel">
+        <h2 class="slide-title reveal">这场分享不讲语法清单</h2>
+        <p class="slide-subtitle reveal">我只讲一件事：能力是怎么在项目里长出来的。</p>
+        <ul class="bullet-list">
+          <li class="reveal"><strong>先开始：</strong>比“等学完”更重要。</li>
+          <li class="reveal">每个项目都能沉淀一个新能力。</li>
+          <li class="reveal">最终目标不是会写代码，而是能持续交付。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 03 -->
+  <section class="slide slide-03" data-title="跃迁地图">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Leap Map</span>
+        <span>03 / 10</span>
+      </div>
+      <div class="map-panel">
+        <h2 class="slide-title reveal">我的 <span class="leap-number">7</span> 次跃迁</h2>
+        <p class="slide-subtitle reveal">上线意识 → 闭环意识 → 场景意识 → 迭代意识 → 产品意识 → 自动化意识 → 系统意识</p>
+      </div>
+      <div class="cards">
+        <article class="card reveal"><p class="num">01</p><p class="title">上线意识：先发布</p></article>
+        <article class="card reveal"><p class="num">02</p><p class="title">闭环意识：先跑通流程</p></article>
+        <article class="card reveal"><p class="num">03</p><p class="title">场景意识：先想用户怎么用</p></article>
+        <article class="card reveal"><p class="num">04</p><p class="title">迭代意识：版本持续优化</p></article>
+        <article class="card reveal"><p class="num">05</p><p class="title">产品意识：逻辑先于装饰</p></article>
+        <article class="card reveal"><p class="num">06</p><p class="title">自动化意识：重复任务脚本化</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 04 -->
+  <section class="slide slide-04" data-title="跃迁 1">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Leap 01</span>
+        <span>04 / 10</span>
+      </div>
+      <div class="split-layout">
+        <div class="split-main">
+          <h2 class="slide-title reveal">上线意识</h2>
+          <p class="slide-subtitle reveal">项目：个人落地页（Gemini + 记事本 + HTML）</p>
+          <ul class="bullet-list">
+            <li class="reveal"><strong>关键改变：</strong>第一次把代码变成可访问链接。</li>
+            <li class="reveal">我用最原始工具也完成了交付，不再等“工具学完”。</li>
+            <li class="reveal">从这一步开始，我把学习目标从“理解”切换到“上线”。</li>
+          </ul>
+        </div>
+        <aside class="split-side reveal">
+          <div class="image-slot image-slot--tall">
+            <img class="slot-media" src="assets/images/1.png" alt="个人落地页截图" />
+          </div>
+          <a
+            class="jump-btn"
+            href="https://xxxtingxxx-yolanda.github.io/my-portfolio/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >访问个人落地页</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 05 -->
+  <section class="slide slide-05" data-title="跃迁 2-3">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Leap 02 / 03</span>
+        <span>05 / 10</span>
+      </div>
+      <div class="split-layout">
+        <div class="split-main">
+          <h2 class="slide-title reveal"><span class="nowrap-cn">从页面到流程，</span><span class="nowrap-cn">再到场景</span></h2>
+          <p class="slide-subtitle reveal">项目：ofd2pdf + 亲戚相册</p>
+          <ul class="bullet-list">
+            <li class="reveal"><strong>闭环意识：</strong>上传-校验-预览-导出，第一次跑通全链路。</li>
+            <li class="reveal"><strong>场景意识：</strong>从“我想加什么”转到“用户在春节场景怎么用”。</li>
+            <li class="reveal">我开始懂得：可用流程和真实场景，比“功能数量”更重要。</li>
+          </ul>
+        </div>
+        <aside class="split-side reveal">
+          <div class="image-slot image-slot--tall">
+            <video class="slot-media" src="assets/images/2.mp4" autoplay muted loop playsinline></video>
+          </div>
+          <div class="image-slot image-slot--tall">
+            <video class="slot-media" src="assets/images/3.mp4" autoplay muted loop playsinline></video>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 06 -->
+  <section class="slide slide-06" data-title="跃迁 4">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Leap 04</span>
+        <span>06 / 10</span>
+      </div>
+      <div class="split-layout">
+        <div class="split-main">
+          <h2 class="slide-title reveal">迭代意识</h2>
+          <p class="slide-subtitle reveal">项目：食遇记（V1 → V2）</p>
+          <ul class="bullet-list">
+            <li class="reveal"><strong>核心节奏：</strong>发现问题 → 修复验证 → 复盘沉淀。</li>
+            <li class="reveal">能力提升不靠“第一次做对”，而靠“持续做对”。</li>
+            <li class="reveal">这让我真正形成了版本思维，而不是一次性开发思维。</li>
+          </ul>
+        </div>
+        <aside class="split-side reveal">
+          <div class="image-slot image-slot--tall">
+            <img class="slot-media" src="assets/images/4.png" alt="食遇记迭代截图" />
+          </div>
+          <a
+            class="jump-btn"
+            href="https://www.xiaohongshu.com/explore/6988aaa9000000001a02a8e1?xsec_token=AB83UvTBKb4exSAFp9m8qOyYyQrOpJV0qJnlDy8bD_nmE=&amp;xsec_source=pc_user"
+            target="_blank"
+            rel="noopener noreferrer"
+          >打开小红书作品页</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 07 -->
+  <section class="slide slide-07" data-title="跃迁 5-6">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Leap 05 / 06</span>
+        <span>07 / 10</span>
+      </div>
+      <div class="split-layout">
+        <div class="split-main">
+          <h2 class="slide-title reveal">产品意识 + <span class="nowrap-cn">自动化意识</span></h2>
+          <p class="slide-subtitle reveal">项目：导师筛选网站 + 套样机工具</p>
+          <ul class="bullet-list">
+            <li class="reveal"><strong>产品意识：</strong>开始做决策工具，强调推荐逻辑和移动端阅读路径。</li>
+            <li class="reveal"><strong>自动化意识：</strong>把重复劳动脚本化，进入工具化生产阶段。</li>
+            <li class="reveal">这是明显分水岭：从“做作品”变成“做能力系统”。</li>
+          </ul>
+        </div>
+        <aside class="split-side reveal">
+          <div class="image-slot image-slot--tall">
+            <img class="slot-media slot-media--contain" src="assets/images/5.png" alt="导师筛选网站截图" />
+          </div>
+          <a
+            class="jump-btn"
+            href="https://tianfei.chat/app/mentor/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >打开导师筛选网站</a>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 08 -->
+  <section class="slide slide-08" data-title="跃迁 7">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Leap 07</span>
+        <span>08 / 10</span>
+      </div>
+      <div class="split-layout">
+        <div class="split-main">
+          <h2 class="slide-title reveal">系统意识</h2>
+          <p class="slide-subtitle reveal">项目：论文流 + 教材本子 + AI 计划大师</p>
+          <ul class="bullet-list">
+            <li class="reveal"><strong>能力迁移：</strong>把工程方法迁移到写作和学习管理。</li>
+            <li class="reveal">SOP、版本、质检、提醒流程，把执行稳定性提上来。</li>
+            <li class="reveal">编程开始反向管理我的成长，而不是只产出单个项目。</li>
+          </ul>
+        </div>
+        <aside class="split-side reveal">
+          <div class="image-slot image-slot--tall">
+            <img class="slot-media slot-media--contain" src="assets/images/7.png" alt="Illustration 7" />
+          </div>
+          <div class="image-slot image-slot--tall">
+            <img class="slot-media slot-media--contain" src="assets/images/8.png" alt="Illustration 8" />
+          </div>
+          <div class="image-slot image-slot--tall">
+            <img class="slot-media slot-media--contain" src="assets/images/6.jpg" alt="Illustration 6" />
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 09 -->
+  <section class="slide slide-09" data-title="可复制方法">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Method</span>
+        <span>09 / 10</span>
+      </div>
+      <div class="method-panel">
+        <h2 class="slide-title reveal">给小白可复制的<span class="method-number">3</span>步框架</h2>
+        <ul class="bullet-list">
+          <li class="reveal"><strong>第一步：</strong>先做最小可交付版本，建立正反馈。</li>
+          <li class="reveal"><strong>第二步：</strong>把核心流程跑通，先可用再高级。</li>
+          <li class="reveal"><strong>第三步：</strong>把重复动作自动化，形成长期复利。</li>
+        </ul>
+        <p class="closing reveal">一句话：先开始，能力会在项目里长出来。</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 10 -->
+  <section class="slide slide-10" data-title="结束页">
+    <div class="slide-content">
+      <div class="meta-row reveal">
+        <span class="kicker">Closing</span>
+        <span>10 / 10</span>
+      </div>
+      <p class="quote reveal">你不需要先变强，<em>才能开始</em>。<br />你需要先开始，<em>才会变强</em>。</p>
+      <p class="closing reveal">Q & A · 欢迎按项目逐个提问</p>
+    </div>
+  </section>
+
+  <div class="keyboard-hint">Arrow keys / Space / Mouse wheel / Dots</div>
+
+  <script>
+    class SlidePresentation {
+      constructor() {
+        this.slides = Array.from(document.querySelectorAll(".slide"));
+        this.progress = document.getElementById("progressBar");
+        this.nav = document.getElementById("navDots");
+        this.currentSlide = 0;
+        this.isScrolling = false;
+        this.touchStartY = 0;
+        this.initDots();
+        this.setupObserver();
+        this.setupKeyboardNav();
+        this.setupWheelNav();
+        this.setupTouchNav();
+        this.updateUI();
+      }
+
+      initDots() {
+        this.nav.innerHTML = "";
+        this.slides.forEach((slide, index) => {
+          const dot = document.createElement("button");
+          dot.className = "nav-dot";
+          dot.type = "button";
+          dot.setAttribute("aria-label", slide.dataset.title || `Slide ${index + 1}`);
+          dot.addEventListener("click", () => this.goToSlide(index));
+          this.nav.appendChild(dot);
+        });
+      }
+
+      setupObserver() {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+                const index = this.slides.indexOf(entry.target);
+                if (index !== -1) {
+                  this.currentSlide = index;
+                  this.updateUI();
+                }
+              }
+            });
+          },
+          { threshold: 0.56 }
+        );
+        this.slides.forEach((slide) => observer.observe(slide));
+      }
+
+      setupKeyboardNav() {
+        document.addEventListener("keydown", (e) => {
+          if (["ArrowDown", "PageDown", " "].includes(e.key)) {
+            e.preventDefault();
+            this.next();
+          } else if (["ArrowUp", "PageUp"].includes(e.key)) {
+            e.preventDefault();
+            this.prev();
+          } else if (e.key === "Home") {
+            e.preventDefault();
+            this.goToSlide(0);
+          } else if (e.key === "End") {
+            e.preventDefault();
+            this.goToSlide(this.slides.length - 1);
+          }
+        });
+      }
+
+      setupWheelNav() {
+        window.addEventListener(
+          "wheel",
+          (e) => {
+            if (this.isScrolling) return;
+            if (Math.abs(e.deltaY) < 20) return;
+            if (e.deltaY > 0) this.next();
+            else this.prev();
+          },
+          { passive: true }
+        );
+      }
+
+      setupTouchNav() {
+        window.addEventListener(
+          "touchstart",
+          (e) => {
+            this.touchStartY = e.changedTouches[0].clientY;
+          },
+          { passive: true }
+        );
+        window.addEventListener(
+          "touchend",
+          (e) => {
+            const endY = e.changedTouches[0].clientY;
+            const delta = this.touchStartY - endY;
+            if (Math.abs(delta) < 36) return;
+            if (delta > 0) this.next();
+            else this.prev();
+          },
+          { passive: true }
+        );
+      }
+
+      next() {
+        this.goToSlide(Math.min(this.currentSlide + 1, this.slides.length - 1));
+      }
+
+      prev() {
+        this.goToSlide(Math.max(this.currentSlide - 1, 0));
+      }
+
+      goToSlide(index) {
+        if (index === this.currentSlide || index < 0 || index >= this.slides.length) return;
+        this.isScrolling = true;
+        this.slides[index].scrollIntoView({ behavior: "smooth", block: "start" });
+        window.setTimeout(() => {
+          this.isScrolling = false;
+        }, 520);
+      }
+
+      updateUI() {
+        const dots = this.nav.querySelectorAll(".nav-dot");
+        dots.forEach((dot, idx) => dot.classList.toggle("active", idx === this.currentSlide));
+        const ratio = (this.currentSlide + 1) / this.slides.length;
+        this.progress.style.width = `${ratio * 100}%`;
+      }
+    }
+
+    new SlidePresentation();
+  </script>
+</body>
+</html>
+
+

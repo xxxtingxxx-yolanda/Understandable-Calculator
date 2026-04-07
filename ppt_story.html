@@ -1,0 +1,65 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>寒假编程进化志｜网页PPT</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@400;500;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./ppt_story.css" />
+  </head>
+  <body>
+    <div class="deck-bg" aria-hidden="true"></div>
+
+    <main class="deck" id="deckRoot">
+      <header class="deck-top">
+        <div>
+          <p class="deck-kicker">WINTER BREAK / WEB PRESENTATION MODE</p>
+          <h1>寒假编程进化志</h1>
+          <p class="deck-sub">点击一步，讲一步。适合现场分享的网页版 PPT。</p>
+        </div>
+        <div class="deck-meta">
+          <span>作者：雷雨婷</span>
+          <span>时间：2026.01 - 2026.03</span>
+        </div>
+      </header>
+
+      <section class="deck-body">
+        <aside class="stepper" id="stepper"></aside>
+
+        <section class="slide-wrap" id="slideWrap">
+          <div class="slide-progress"><span id="slideProgressFill"></span></div>
+          <article class="slide-card" id="slideCard">
+            <div class="slide-head">
+              <p class="slide-index" id="slideIndex">00</p>
+              <p class="slide-time" id="slideTime">起点</p>
+            </div>
+            <h2 id="slideTitle">-</h2>
+            <p class="slide-summary" id="slideSummary"></p>
+            <ul class="slide-bullets" id="slideBullets"></ul>
+            <div class="slide-tags" id="slideTags"></div>
+            <div class="slide-actions">
+              <a class="slide-link" id="slideLink" href="#" target="_blank" rel="noopener noreferrer">进入项目页</a>
+            </div>
+          </article>
+
+          <figure class="slide-media" id="slideMedia">
+            <img id="slideImage" src="" alt="项目图片" loading="lazy" />
+          </figure>
+        </section>
+      </section>
+
+      <footer class="deck-controls">
+        <button class="ctrl-btn" id="prevBtn" type="button">上一页</button>
+        <p class="ctrl-page" id="pageText">01 / 09</p>
+        <button class="ctrl-btn primary" id="nextBtn" type="button">下一页</button>
+      </footer>
+    </main>
+
+    <script src="./ppt_story.js"></script>
+  </body>
+</html>

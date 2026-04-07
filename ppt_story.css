@@ -1,0 +1,373 @@
+﻿:root {
+  --bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-soft: #f1f5f9;
+  --line: #dbe5f2;
+  --text: #0f172a;
+  --muted: #64748b;
+  --primary: #2563eb;
+  --secondary: #475569;
+  --accent: #f59e0b;
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --shadow-lg: 0 22px 44px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Noto Sans SC", "Manrope", sans-serif;
+  color: var(--text);
+  background: var(--bg);
+}
+
+.deck-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(680px 340px at -10% -10%, rgba(37, 99, 235, 0.08), transparent 75%),
+    radial-gradient(620px 340px at 110% 0%, rgba(245, 158, 11, 0.08), transparent 72%);
+}
+
+.deck {
+  width: min(1320px, calc(100vw - 36px));
+  margin: 18px auto;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 26px;
+  background: var(--surface);
+  box-shadow: var(--shadow-lg);
+  display: grid;
+  gap: 14px;
+}
+
+.deck-top {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--surface-soft);
+  padding: 16px 18px;
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.deck-kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--primary);
+  font: 700 0.72rem/1 "Manrope", sans-serif;
+}
+
+.deck-top h1 {
+  margin: 10px 0 6px;
+  font: 700 clamp(2rem, 4vw, 3.3rem) / 1 "Cormorant Garamond", "Noto Sans SC", serif;
+}
+
+.deck-sub {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 1rem;
+}
+
+.deck-meta {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.deck-meta span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.82rem;
+  color: var(--secondary);
+  background: #fff;
+}
+
+.deck-body {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 14px;
+}
+
+.stepper {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--surface-soft);
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  max-height: 68vh;
+  overflow: auto;
+}
+
+.step-btn {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: var(--secondary);
+  text-align: left;
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 8px;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+}
+
+.step-btn:hover {
+  transform: translateX(2px);
+  border-color: rgba(37, 99, 235, 0.45);
+}
+
+.step-btn.active {
+  border-color: rgba(37, 99, 235, 0.55);
+  background: #eef4ff;
+  color: var(--primary);
+}
+
+.step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+  font: 800 0.68rem/1 "Manrope", sans-serif;
+}
+
+.step-btn.active .step-num {
+  border-color: rgba(37, 99, 235, 0.45);
+  color: var(--primary);
+  background: #dfeaff;
+}
+
+.step-title {
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.slide-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
+  background: var(--surface-soft);
+  padding: 12px;
+  display: grid;
+  gap: 12px;
+}
+
+.slide-progress {
+  height: 5px;
+  border-radius: 999px;
+  background: #dce6f4;
+  overflow: hidden;
+}
+
+#slideProgressFill {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.25s ease;
+}
+
+.slide-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: #fff;
+  padding: 18px;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.slide-card.is-swapping,
+.slide-media.is-swapping {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.slide-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.slide-index {
+  margin: 0;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface-soft);
+  color: var(--primary);
+  min-width: 54px;
+  text-align: center;
+  padding: 4px 8px;
+  font: 800 1.2rem/1 "Manrope", sans-serif;
+}
+
+.slide-time {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.slide-card h2 {
+  margin: 12px 0 10px;
+  font: 700 clamp(1.5rem, 3vw, 2.4rem) / 1.14 "Cormorant Garamond", "Noto Sans SC", serif;
+}
+
+.slide-summary {
+  margin: 0;
+  color: var(--secondary);
+  font-size: 1rem;
+}
+
+.slide-bullets {
+  margin: 12px 0 0;
+  padding-left: 1.1rem;
+  color: var(--secondary);
+}
+
+.slide-bullets li + li {
+  margin-top: 6px;
+}
+
+.slide-tags {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.slide-tag {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  color: var(--secondary);
+  background: var(--surface-soft);
+}
+
+.slide-actions {
+  margin-top: 14px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.slide-link {
+  text-decoration: none;
+  border-radius: 999px;
+  border: 1px solid rgba(37, 99, 235, 0.34);
+  padding: 8px 14px;
+  color: var(--primary);
+  font-weight: 700;
+  background: #eef4ff;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.slide-link:hover {
+  transform: translateY(-1px);
+  border-color: #1d4ed8;
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.13);
+}
+
+.slide-media {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: #fff;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+.slide-media img {
+  width: 100%;
+  height: clamp(280px, 36vh, 440px);
+  object-fit: cover;
+  display: block;
+}
+
+.deck-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding-top: 2px;
+}
+
+.ctrl-btn {
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--secondary);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ctrl-btn.primary {
+  border-color: transparent;
+  color: #fff;
+  background: var(--primary);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.2);
+}
+
+.ctrl-page {
+  margin: 0;
+  color: var(--muted);
+  font: 700 0.88rem/1 "Manrope", sans-serif;
+}
+
+@media (max-width: 980px) {
+  .deck {
+    width: calc(100vw - 20px);
+    margin: 10px auto;
+    padding: 12px;
+  }
+
+  .deck-body {
+    grid-template-columns: 1fr;
+  }
+
+  .stepper {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-height: none;
+  }
+
+  .step-title {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .stepper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .slide-card {
+    padding: 14px;
+  }
+
+  .slide-media img {
+    height: 240px;
+  }
+}

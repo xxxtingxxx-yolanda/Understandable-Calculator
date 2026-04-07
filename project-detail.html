@@ -1,0 +1,46 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>项目详情</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Manrope:wght@500;700;800&family=Noto+Sans+SC:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./project-detail.css" />
+  </head>
+  <body>
+    <main class="detail" id="detailRoot">
+      <header class="detail-top">
+        <a class="back-link" href="./ppt_story.html">返回网页PPT</a>
+        <a class="back-link" href="./index.html">返回主页面</a>
+      </header>
+
+      <section class="detail-card">
+        <div class="detail-head">
+          <p class="detail-index" id="detailIndex">00</p>
+          <p class="detail-time" id="detailTime"></p>
+        </div>
+        <h1 id="detailTitle"></h1>
+        <p class="detail-summary" id="detailSummary"></p>
+
+        <div class="detail-grid">
+          <figure class="detail-figure">
+            <img id="detailImage" src="" alt="" loading="lazy" />
+          </figure>
+          <div>
+            <h2>核心要点</h2>
+            <ul id="detailBullets"></ul>
+            <div class="detail-tags" id="detailTags"></div>
+            <a class="detail-link" id="detailLink" href="#" target="_blank" rel="noopener noreferrer">打开外部项目页</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="./project-detail.js"></script>
+  </body>
+</html>
